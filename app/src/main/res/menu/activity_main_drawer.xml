@@ -3,36 +3,55 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group
+        android:id="@+id/first"
+        android:checkableBehavior="single">
+
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:id="@+id/notification_center"
+            android:icon="@drawable/ic_notifications_black_24dp"
+            android:title="Notification Center" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/offline_map"
+            android:icon="@drawable/ic_map_black_24dp"
+            android:title="Offline Maps" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/service_alert"
+            android:icon="@drawable/ic_priority_high_black_24dp"
+            android:title="Service Alerts" />
     </group>
 
-    <item android:title="Communicate">
-        <menu>
+    <group  android:id="@+id/menu_bottom"
+        android:checkableBehavior="none">>
+
+        <item
+            android:id="@+id/spread_the_love"
+            android:icon="@drawable/ic_share_black_24dp"
+            android:title="Spread The Love" />
+        <item
+            android:id="@+id/rate_us"
+            android:icon="@drawable/ic_star_white_24dp"
+            android:title="Offline Maps" />
+        <item
+            android:id="@+id/setting"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="Setting" />
+        <item
+            android:id="@+id/feedback"
+            android:icon="@drawable/ic_feedback_black_24dp"
+            android:title="Setting" />
+    </group>
+    <group android:id="@+id/last">
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:id="@+id/new_version"
+                android:title="New in thi version" />
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
-        </menu>
-    </item>
+                android:id="@+id/help_center"
+                android:title="Help Center" />
+            <item
+                android:id="@+id/about"
+                android:title="About" />
+
+    </group>
 
 </menu>
