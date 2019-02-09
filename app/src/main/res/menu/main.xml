@@ -7,5 +7,4 @@
         app:showAsAction="withText|collapseActionView|ifRoom"
         app:actionViewClass="android.support.v7.widget.SearchView"
         />
-    />
 </menu>

@@ -19,6 +19,32 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".NotificationCenter"
+            android:label="@string/title_activity_notification_center"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.bu_bustracker.MainActivity" />
+        </activity>
+        <activity
+            android:name=".NotificationSetting"
+            android:label="@string/title_activity_notification_setting"
+            android:parentActivityName=".NotificationCenter">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.bu_bustracker.NotificationCenter" />
+        </activity>
+        <activity
+            android:name=".ServiceAlert"
+            android:label="@string/title_activity_service_alert"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.bu_bustracker.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

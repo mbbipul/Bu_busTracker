@@ -21,7 +21,8 @@
             android:title="Service Alerts" />
     </group>
 
-    <group  android:id="@+id/menu_bottom"
+    <group
+        android:id="@+id/menu_bottom"
         android:checkableBehavior="none">>
 
         <item
@@ -31,7 +32,7 @@
         <item
             android:id="@+id/rate_us"
             android:icon="@drawable/ic_star_white_24dp"
-            android:title="Offline Maps" />
+            android:title="Rate Us" />
         <item
             android:id="@+id/setting"
             android:icon="@drawable/ic_settings_black_24dp"
@@ -39,12 +40,12 @@
         <item
             android:id="@+id/feedback"
             android:icon="@drawable/ic_feedback_black_24dp"
-            android:title="Setting" />
+            android:title="Feedback" />
     </group>
     <group android:id="@+id/last">
             <item
                 android:id="@+id/new_version"
-                android:title="New in thi version" />
+                android:title="New in this version" />
             <item
                 android:id="@+id/help_center"
                 android:title="Help Center" />
