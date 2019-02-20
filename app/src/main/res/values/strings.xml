@@ -107,4 +107,5 @@
     <string name="meetup_notification">Get the Bus</string>
     <string name="meetup_notification_test_text">Hey Bipul! Bu 9 is far from you about 2km.Ready to go in 2 minute</string>
     <string name="title_activity_service_alert">ServiceAlert</string>
+    <string name="title_activity_spread_love">SpreadLove</string>
 </resources>

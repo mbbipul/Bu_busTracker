@@ -2,9 +2,10 @@ package com.example.bu_bustracker;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
+import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -15,12 +16,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,BottomNavigationView.OnNavigationItemSelectedListener {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //loadFragment(new DirectionsFragment());
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -32,6 +37,9 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+//
+//        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation_view);
+//        bottomNavigationView.setOnNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -71,6 +79,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        Fragment fragment = null;
 
        if (id == R.id.notification_center) {
            Intent notificationCenter = new Intent(MainActivity.this, NotificationCenter.class);
@@ -87,10 +96,53 @@ public class MainActivity extends AppCompatActivity
        } else if (id == R.id.setting) {
 
        }
+//       else if(id == R.id.directions){
+//           fragment = new DirectionsFragment();
+//        }
+//        else if(id == R.id.near_me){
+//            fragment = new NearmeFragment();
+//        }
+//       else if(id == R.id.lines){
+//            fragment = new LinesFragment();
+//        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
-        return true;
+return true;
     }
 
+//    @Override
+//    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//        Fragment fragment = null;
+//
+//        switch (item.getItemId()) {
+//            case R.id.directions:
+//                fragment = new DirectionsFragment();
+//                break;
+//
+//            case R.id.nearme_layout:
+//                fragment = new NearmeFragment();
+//                break;
+//
+//            case R.id.lines:
+//                fragment = new LinesFragment();
+//                break;
+//
+//        }
+//
+//        return loadFragment(fragment);
+//    }
+
+
+//    private boolean loadFragment(Fragment fragment) {
+//        //switching fragment
+//        if (fragment != null) {
+//            getSupportFragmentManager()
+//                    .beginTransaction()
+//                    .replace(R.id.fragment_container, fragment)
+//                    .commit();
+//            return true;
+//        }
+//        return false;
+//    }
 
 }

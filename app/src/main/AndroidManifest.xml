@@ -45,6 +45,19 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.bu_bustracker.MainActivity" />
         </activity>
+        <activity
+            android:name=".SpreadLove"
+            android:label="@string/title_activity_spread_love"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.bu_bustracker.MainActivity" />
+        </activity>
     </application>
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
 </manifest>
