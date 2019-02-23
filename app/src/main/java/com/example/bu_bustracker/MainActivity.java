@@ -14,9 +14,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,BottomNavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener {
 
 
     @Override
@@ -24,7 +27,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //loadFragment(new DirectionsFragment());
+        loadFragment(new DirectionsFragment());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -38,10 +41,31 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 //
-//        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation_view);
-//        bottomNavigationView.setOnNavigationItemSelectedListener(this);
-    }
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation_view);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+
+
+    }
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.directions:
+                    loadFragment(new DirectionsFragment());
+                    return true;
+                case R.id.near_me:
+                    loadFragment(new NearmeFragment());
+                    return true;
+                case R.id.lines:
+                    loadFragment(new LinesFragment());
+                    return true;
+            }
+            return false;
+        }
+    };
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -79,7 +103,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        Fragment fragment = null;
+      //  Fragment fragment = null;
 
        if (id == R.id.notification_center) {
            Intent notificationCenter = new Intent(MainActivity.this, NotificationCenter.class);
@@ -96,18 +120,12 @@ public class MainActivity extends AppCompatActivity
        } else if (id == R.id.setting) {
 
        }
-//       else if(id == R.id.directions){
-//           fragment = new DirectionsFragment();
-//        }
-//        else if(id == R.id.near_me){
-//            fragment = new NearmeFragment();
-//        }
-//       else if(id == R.id.lines){
-//            fragment = new LinesFragment();
-//        }
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
-return true;
+//        if(fragment!=null)
+//            return loadFragment(fragment);
+        return true;
     }
 
 //    @Override
@@ -133,16 +151,16 @@ return true;
 //    }
 
 
-//    private boolean loadFragment(Fragment fragment) {
-//        //switching fragment
-//        if (fragment != null) {
-//            getSupportFragmentManager()
-//                    .beginTransaction()
-//                    .replace(R.id.fragment_container, fragment)
-//                    .commit();
-//            return true;
-//        }
-//        return false;
-//    }
+    private boolean loadFragment(Fragment fragment) {
+        //switching fragment
+        if (fragment != null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, fragment)
+                    .commit();
+            return true;
+        }
+        return false;
+    }
 
 }

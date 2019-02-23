@@ -15,6 +15,6 @@ public class DirectionsFragment extends Fragment {
         //with the fragment you want to inflate
         //like if the class is HomeFragment it should have R.layout.home_fragment
         //if it is DashboardFragment it should have R.layout.fragment_dashboard
-        return inflater.inflate(R.layout.app_bar_main, null);
+        return inflater.inflate(R.layout.direction_layout, null);
     }
 }

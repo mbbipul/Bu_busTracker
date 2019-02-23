@@ -2,12 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/directions"
-        android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="Notification Center" />
+        android:icon="@drawable/ic_directions_black_24dp"
+        android:title="Directions" />
     <item
         android:id="@+id/near_me"
-        android:icon="@drawable/ic_map_black_24dp"
-        android:title="Offline Maps" />
+        android:icon="@drawable/ic_nearme_white_24dp"
+        android:title="Near Me" />
     <item
         android:id="@+id/lines"
         android:icon="@drawable/ic_linear_scale_black_24dp"

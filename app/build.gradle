@@ -39,6 +39,8 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     implementation 'com.ncapdevi:frag-nav:3.0.0'   //or or `compile` if on older gradle version
+    implementation 'com.aurelhubert:ahbottomnavigation:1.1.8'
+
 
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
