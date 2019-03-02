@@ -15,6 +15,7 @@
     <string name="notification_feedback">Feedback</string>
     <string name="title_activity_notification_setting">NotificationSetting</string>
 
+    <string name="google_maps_key">AIzaSyC21ByMqsEcp0SbGOPmF-c6_rwUmVlDHog</string>
     <!-- Strings related to Settings -->
 
     <!-- Example General settings -->
@@ -108,4 +109,76 @@
     <string name="meetup_notification_test_text">Hey Bipul! Bu 9 is far from you about 2km.Ready to go in 2 minute</string>
     <string name="title_activity_service_alert">ServiceAlert</string>
     <string name="title_activity_spread_love">SpreadLove</string>
+    <string name="title_activity_show_direction">Map</string>
+    <string name="location_permission_denied">Location Permission Denied</string>
+    <string name="permission_required_toast">Enable Location</string>
+    <string name="permission_rationale_location">Check Permission</string>
+
+
+    <string name="places_path" translatable="false">Places</string>
+    <string name="firebase_path" translatable="false">locations</string>
+    <string name="firebase_email" translatable="false">mbbipulmandol.cse3.bu@gmail.com</string>
+    <string name="firebase_password" translatable="false">mbbipulmandol.cse3.bu@gmail.com</string>
+    <string name="title_activity_maps">Map</string>
+
+    <string-array name="destinition">
+        <item>Amtola mor</item>
+        <item>Banglabazar mor</item>
+        <item>Barisal Club</item>
+        <item>Kathal Tola</item>
+        <item>Nuriya Scholl</item>
+        <item>Rupatoli Housing</item>
+        <item>Toll Ghor</item>\
+        <item>University</item>
+        <item>Bottola mor</item>
+        <item>Korim Kuthir</item>
+        <item>Munsi Graze</item>
+        <item>Natun Bazar</item>
+        <item>Opsonin mor</item>
+        <item>Notun Vazar</item>
+        <item>Amtola mor</item>
+        <item>College Avenue</item>
+        <item>Notullbad</item>
+        <item>Rupatoli Housing</item>
+        <item>TTC Main Gate</item>
+        <item>Toll Ghor</item>
+    </string-array>
+
+    <string-array name="origin">
+        <item>Your Current Location</item>
+        <item>Amtola mor</item>
+        <item>Banglabazar mor</item>
+        <item>Barisal Club</item>
+        <item>Kathal Tola</item>
+        <item>Nuriya Scholl</item>
+        <item>Rupatoli Housing</item>
+        <item>Toll Ghor</item>\
+        <item>University</item>
+        <item>Bottola mor</item>
+        <item>Korim Kuthir</item>
+        <item>Munsi Graze</item>
+        <item>Natun Bazar</item>
+        <item>Opsonin mor</item>
+        <item>Notun Vazar</item>
+        <item>College Avenue</item>
+        <item>Notullbad</item>
+        <item>TTC Main Gate</item>
+    </string-array>
+
+    <string-array name="latitude_longitude_origin">
+        <item>22.687969,90.356133</item>
+        <item>22.694257,90.364184</item>
+        <item>22.697574,90.369403</item>
+        <item>22.674256,90.346853</item>
+        <item>2.690224,90.359188</item>
+        <item>22.679087,90.347647</item>
+        <item>22.666351,90.346306</item>
+        <item>22.659581,90.361736</item>
+        <item>22.701325,90.364836</item>
+        <item>22.701077,90.357907</item>
+        <item>22.706212,90.362016</item>
+        <item>22.711562,90.360947</item>
+        <item>22.707927,90.353287</item>
+    </string-array>
+
 </resources>
