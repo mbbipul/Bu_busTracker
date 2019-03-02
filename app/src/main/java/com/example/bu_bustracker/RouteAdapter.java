@@ -16,21 +16,23 @@
 package com.example.bu_bustracker;
 
 import android.content.Context;
-import android.graphics.Color;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class RouteAdapter extends BaseAdapter {
+public class RouteAdapter extends BaseAdapter  {
 
     ArrayList<Object> routes;
     Context c;
     LayoutInflater inflater;
+    LinearLayout linearLayout;
     static final int ROW=0;
     static final int HEADER=1;
 
@@ -38,6 +40,7 @@ public class RouteAdapter extends BaseAdapter {
         // TODO Auto-generated constructor stub
         this.c=c;
         this.routes=players;
+        inflater = LayoutInflater.from(c);
     }
 
     //GET TOTAL NUMBER OF ITEMS IN ARRAYLIST
@@ -65,7 +68,7 @@ public class RouteAdapter extends BaseAdapter {
     public int getItemViewType(int position) {
 
         //CHECK IF CURRENT ITEM IS PLAYER THEN RETURN ROW
-        if(getItem(position) instanceof Route)
+        if(getItem(position) instanceof Routes)
         {
             return ROW;
         }
@@ -82,21 +85,31 @@ public class RouteAdapter extends BaseAdapter {
     @Override
     public View getView(int pos, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
-
+        View v = convertView;
         //TYPE OF VIEW
         int type=getItemViewType(pos);
-
         //IF THERE IS NO VIEW CREATE IT
-        if(convertView==null)
+        if(v==null)
         {
             inflater=(LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+           // v = inflater.inflate(R.layout.my_spinner_style, null);
 
             switch (type) {
                 case ROW:
-                    convertView=inflater.inflate(R.layout.lines_route_item, null);
+                    v=inflater.inflate(R.layout.lines_route_item, null);
+                    linearLayout =(LinearLayout) v.findViewById(R.id.lines_item_click);
+                    linearLayout.setOnClickListener(new View.OnClickListener() {
+
+                        @Override
+                        public void onClick(View v) {
+                            // TODO Auto-generated method stub
+
+                            c.startActivity(new Intent(c, RouteLineDetails.class));
+                        }
+                    });
                     break;
                 case HEADER:
-                    convertView=inflater.inflate(R.layout.lines_route_header,null);
+                    v=inflater.inflate(R.layout.lines_route_header,null);
                 default:
                     break;
             }
@@ -105,11 +118,11 @@ public class RouteAdapter extends BaseAdapter {
         //OTHERWISE CHECK IF ITS ROW OR HEADER AND SET DATA ACCORDINGLY
         switch (type) {
             case ROW:
-                Route r=(Route) getItem(pos);
+                Routes r=(Routes) getItem(pos);
 
                 //INITIALIZE TEXTVIEW AND IMAGEVIEW
-                TextView routeDes=(TextView) convertView.findViewById(R.id.route_des);
-                ImageView img=(ImageView)convertView.findViewById(R.id.route_image);
+                TextView routeDes=(TextView) v.findViewById(R.id.route_des);
+                ImageView img=(ImageView)v.findViewById(R.id.route_image);
 
                 //SET TEXT AND IMAGE
                 routeDes.setText(r.getDeparturePlace() + " - " +r.getDestinitionPlace());
@@ -118,7 +131,7 @@ public class RouteAdapter extends BaseAdapter {
                 break;
             case HEADER:
                 String header=(String) getItem(pos);
-                TextView headerTv=(TextView) convertView.findViewById(R.id.header_title);
+                TextView headerTv=(TextView) v.findViewById(R.id.header_title);
 
                 //SET HEADER TEXT AND MAYBE BACKGROUND
                 headerTv.setText(header);
@@ -126,7 +139,7 @@ public class RouteAdapter extends BaseAdapter {
                 break;
         }
 
-        return convertView;
+        return v;
     }
 
 }

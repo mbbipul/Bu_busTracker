@@ -1,11 +1,11 @@
 package com.example.bu_bustracker;
 
-public class Route {
+public class Routes {
     private String departurePlace;
     private String destinitionPlace;
     private int iconSrc;
 
-    public Route(String mDeparturePlace,String mDestinitionPlace,int mIconSrc){
+    public Routes(String mDeparturePlace, String mDestinitionPlace, int mIconSrc){
         this.departurePlace = mDeparturePlace;
         this.destinitionPlace = mDestinitionPlace;
         this.iconSrc = mIconSrc;

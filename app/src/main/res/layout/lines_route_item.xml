@@ -6,6 +6,7 @@
     android:background="?selectableItemBackground"
     android:clickable="true"
     android:minHeight="72dp"
+    android:id="@+id/lines_item_click"
     android:paddingEnd="?listPreferredItemPaddingRight"
     android:paddingLeft="?listPreferredItemPaddingLeft"
     android:paddingRight="?listPreferredItemPaddingRight"

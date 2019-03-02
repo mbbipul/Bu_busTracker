@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static com.example.bu_bustracker.R.id.route_line_list_view;
 
@@ -22,30 +21,31 @@ public class LinesFragment extends Fragment {
         //like if the class is HomeFragment it should have R.layout.home_fragment
         //if it is DashboardFragment it should have R.layout.fragment_dashboard
         View rootView = inflater.inflate(R.layout.lines_fragment_layout, container,false);
-        //Route listView
+        //RouteModule listView
          route = rootView.findViewById(route_line_list_view);
 
-        Route route10 = new Route("Notullbad","University",R.drawable.ic_directions_black_24dp);
-        Route route20 = new Route("Barisal Club","University",R.drawable.ic_directions_black_24dp);
-        Route route30 = new Route("Natun Bazar","University",R.drawable.ic_directions_black_24dp);
+        Routes routes10 = new Routes("Notullbad","University",R.drawable.ic_directions_black_24dp);
+        Routes routes20 = new Routes("Barisal Club","University",R.drawable.ic_directions_black_24dp);
+        Routes routes30 = new Routes("Natun Bazar","University",R.drawable.ic_directions_black_24dp);
 
-        Route route01 = new Route("University","Notullbad",R.drawable.ic_directions_black_24dp);
-        Route route02 = new Route("University","Barisal Club",R.drawable.ic_directions_black_24dp);
-        Route route03 = new Route("University","Natun Bazar",R.drawable.ic_directions_black_24dp);
+        Routes routes01 = new Routes("University","Notullbad",R.drawable.ic_directions_black_24dp);
+        Routes routes02 = new Routes("University","Barisal Club",R.drawable.ic_directions_black_24dp);
+        Routes routes03 = new Routes("University","Natun Bazar",R.drawable.ic_directions_black_24dp);
 
         ArrayList<Object> routes = new ArrayList<>();
         routes.add("Go to University");
-        routes.add(route10);
-        routes.add(route20);
-        routes.add(route30);
+        routes.add(routes10);
+        routes.add(routes20);
+        routes.add(routes30);
         routes.add("Go to Home");
-        routes.add(route01);
-        routes.add(route02);
-        routes.add(route03);
+        routes.add(routes01);
+        routes.add(routes02);
+        routes.add(routes03);
 
         if(route!=null){
 
             route.setAdapter(new RouteAdapter(this.getActivity(), routes));
+
         }
         return rootView;
     }

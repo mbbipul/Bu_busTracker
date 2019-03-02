@@ -1,0 +1,53 @@
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--tools:context=".RouteLineDetails">-->
+
+    <!--<android.support.v7.widget.RecyclerView-->
+        <!--android:id="@+id/recyclerView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="@color/white"-->
+        <!--tools:listitem="@layout/route_lines_details_list_item"-->
+        <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"/>-->
+
+<!--</android.support.design.widget.CoordinatorLayout>-->
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:id="@+id/heroImageView"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
+        android:scaleType="fitCenter" />
+
+    <ListView
+    android:id="@+id/recyclerView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:listitem="@layout/route_lines_details_list_item"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+
+    <TextView
+        android:id="@+id/stickyView"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#222"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:text="Heading1"
+        android:textColor="#fff"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+</FrameLayout>
+
