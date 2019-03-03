@@ -127,22 +127,23 @@
         <item>Barisal Club</item>
         <item>Kathal Tola</item>
         <item>Nuriya Scholl</item>
+
         <item>Rupatoli Housing</item>
-        <item>Toll Ghor</item>\
+        <item>Toll Ghor</item>
         <item>University</item>
         <item>Bottola mor</item>
         <item>Korim Kuthir</item>
+
         <item>Munsi Graze</item>
         <item>Natun Bazar</item>
         <item>Opsonin mor</item>
-        <item>Notun Vazar</item>
-        <item>Amtola mor</item>
         <item>College Avenue</item>
         <item>Notullbad</item>
-        <item>Rupatoli Housing</item>
-        <item>TTC Main Gate</item>
-        <item>Toll Ghor</item>
+
+        <item>Cou-Matha Mor</item>
+        <item>Thana Council Main Gate</item>
     </string-array>
+
 
     <string-array name="origin">
         <item>Your Current Location</item>
@@ -151,34 +152,44 @@
         <item>Barisal Club</item>
         <item>Kathal Tola</item>
         <item>Nuriya Scholl</item>
+
         <item>Rupatoli Housing</item>
-        <item>Toll Ghor</item>\
+        <item>Toll Ghor</item>
         <item>University</item>
         <item>Bottola mor</item>
         <item>Korim Kuthir</item>
+
         <item>Munsi Graze</item>
         <item>Natun Bazar</item>
         <item>Opsonin mor</item>
-        <item>Notun Vazar</item>
         <item>College Avenue</item>
         <item>Notullbad</item>
-        <item>TTC Main Gate</item>
+
+        <item>Cou-Matha Mor</item>
+        <item>Thana Council Main Gate</item>
     </string-array>
 
-    <string-array name="latitude_longitude_origin">
+    <string-array name="latitude_longitude_bus_stoppages">
         <item>22.687969,90.356133</item>
         <item>22.694257,90.364184</item>
         <item>22.697574,90.369403</item>
         <item>22.674256,90.346853</item>
         <item>2.690224,90.359188</item>
+
         <item>22.679087,90.347647</item>
         <item>22.666351,90.346306</item>
         <item>22.659581,90.361736</item>
         <item>22.701325,90.364836</item>
         <item>22.701077,90.357907</item>
+
         <item>22.706212,90.362016</item>
         <item>22.711562,90.360947</item>
-        <item>22.707927,90.353287</item>
+        <item>22.704790,90.365273</item>
+        <item>22.707947,90.351496</item>
+        <item>22.713411,90.349607</item>
+
+        <item>22.700932,90.353365</item>
+        <item>22.695792,90.353604</item>
     </string-array>
 
 </resources>
