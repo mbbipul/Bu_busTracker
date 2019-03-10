@@ -10,7 +10,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.support.annotation.NonNull;
 
-
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -19,12 +18,12 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
@@ -83,6 +82,7 @@ public class ShowDirectionBus extends FragmentActivity implements
     private boolean mPermissionDenied = false;
 
     private Button btnFindPath;
+    private EditText etOrigin;
     private TextView yeasb;
     private EditText etDestination;
     private List<Marker> originMarkers = new ArrayList<>();
@@ -95,6 +95,9 @@ public class ShowDirectionBus extends FragmentActivity implements
 
     TextView textView;
     Location currentLocation;
+    CurrentLocation currentLocation;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,6 +149,26 @@ public class ShowDirectionBus extends FragmentActivity implements
             Log.d(TAG,nearStoppages);
             Toast.makeText(this,nearStoppages,Toast.LENGTH_LONG).show();
         }
+=======
+        etOrigin = (EditText) findViewById(R.id.etOrigin);
+        etDestination = (EditText) findViewById(R.id.etDestination);
+        btnFindPath.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendRequest();
+            }
+        });
+        FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+        //requestLocationUpdates(fusedLocationProviderClient);
+
+
+    }
+
+    private void sendRequest() {
+        String origin = etOrigin.getText().toString();
+        String destination = etDestination.getText().toString();
+>>>>>>> 6752306247cf15a12cfe44969baaf40924e1b9d6
         if (origin.isEmpty()) {
             Toast.makeText(this, "Please enter origin address!", Toast.LENGTH_SHORT).show();
             return;
@@ -157,11 +180,11 @@ public class ShowDirectionBus extends FragmentActivity implements
 
         try {
             new DirectionFinder(this, latLngOrigin, latLngDestination).execute();
+            new DirectionFinder(this, origin, destination).execute();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
     }
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         // Authenticate with Firebase when the Google map is loaded
@@ -171,7 +194,6 @@ public class ShowDirectionBus extends FragmentActivity implements
         enableMyLocation();
         loginToFirebase();
     }
-
     private void enableMyLocation() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -234,7 +256,10 @@ public class ShowDirectionBus extends FragmentActivity implements
         PermissionUtils.PermissionDeniedDialog
                 .newInstance(true).show(getSupportFragmentManager(), "dialog");
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6752306247cf15a12cfe44969baaf40924e1b9d6
     private void loginToFirebase() {
         String email = getString(R.string.firebase_email);
         String password = getString(R.string.firebase_password);
@@ -292,6 +317,7 @@ public class ShowDirectionBus extends FragmentActivity implements
         double lng = Double.parseDouble(value.get("longitude").toString());
         LatLng location = new LatLng(lat, lng);
         if (!mMarkers.containsKey(key)) {
+<<<<<<< HEAD
 
             int height = 100;
             int width = 100;
@@ -301,6 +327,9 @@ public class ShowDirectionBus extends FragmentActivity implements
             mMarkers.put(key, mMap.addMarker(new MarkerOptions().title(key)
                     .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
                     .position(location)));
+=======
+            mMarkers.put(key, mMap.addMarker(new MarkerOptions().title(key).position(location)));
+>>>>>>> 6752306247cf15a12cfe44969baaf40924e1b9d6
         } else {
             mMarkers.get(key).setPosition(location);
         }
@@ -328,7 +357,11 @@ public class ShowDirectionBus extends FragmentActivity implements
         }
 
         if (polylinePaths != null) {
+<<<<<<< HEAD
             for (Polyline polyline : polylinePaths) {
+=======
+            for (Polyline polyline:polylinePaths ) {
+>>>>>>> 6752306247cf15a12cfe44969baaf40924e1b9d6
                 polyline.remove();
             }
         }
@@ -472,4 +505,24 @@ public class ShowDirectionBus extends FragmentActivity implements
     }
 
 
+    private void requestLocationUpdates(FusedLocationProviderClient fusedLocationProviderClient) {
+        Task task = fusedLocationProviderClient.getLastLocation();
+        task.addOnSuccessListener(location -> {
+            Location location1 = (Location) location;
+            double lat = location1.getLatitude();
+            double lng = location1.getLongitude();
+            currentLocation = new CurrentLocation(lat, lng);
+            String str = String.valueOf(currentLocation.getLattitiude());
+            yeasb = findViewById(R.id.yeasb);
+            yeasb.setText(str);
+
+        });
+    }
+    private final LocationListener mLocationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(final Location location) {
+            //your code here
+        }
+    };
+>>>>>>> 6752306247cf15a12cfe44969baaf40924e1b9d6
 }
