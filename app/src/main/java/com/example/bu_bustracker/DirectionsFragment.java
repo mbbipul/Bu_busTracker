@@ -1,6 +1,7 @@
 package com.example.bu_bustracker;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,11 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.TextView;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import Location.BusStopages;
 
 import static com.example.bu_bustracker.R.array.destinition;
 
@@ -35,13 +31,7 @@ public class DirectionsFragment extends Fragment {
 
         searchView = fragView.findViewById(R.id.search_to_go);
         show = fragView.findViewById(R.id.show);
-        Map<String, String > busStopages = new HashMap<String, String>();
 
-        busStopages.put("bbs","41.43206,-81.38992");
-        busStopages.put("sads","41.43206,-81.38992");
-        busStopages.put("asas","41.43206,-81.38992");
-
-        show.setText(busStopages.get("bbs"));
         searchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

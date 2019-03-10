@@ -6,8 +6,8 @@
         android:title="Directions" />
     <item
         android:id="@+id/near_me"
-        android:icon="@drawable/ic_nearme_white_24dp"
-        android:title="Near Me" />
+        android:icon="@drawable/ic_directions_bus_black_24dp"
+        android:title="Find Bus" />
     <item
         android:id="@+id/lines"
         android:icon="@drawable/ic_linear_scale_black_24dp"

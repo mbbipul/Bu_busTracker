@@ -3,7 +3,10 @@ package com.example.bu_bustracker;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.support.annotation.NonNull;
 
@@ -30,6 +33,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -53,8 +58,12 @@ import java.io.UnsupportedEncodingException;
 import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Stream;
 
 import DirectionModule.DirectionFinder;
 import DirectionModule.DirectionFinderListener;
@@ -82,7 +91,7 @@ public class ShowDirectionBus extends FragmentActivity implements
     private ProgressDialog progressDialog;
     private  MaterialBetterSpinner  destSpinner;
     private  MaterialBetterSpinner  originSpinner;
-
+    HashMap<String, String> busStoppagesHasMap;
 
     TextView textView;
     Location currentLocation;
@@ -99,14 +108,17 @@ public class ShowDirectionBus extends FragmentActivity implements
         destSpinner = (MaterialBetterSpinner) findViewById(R.id.etDestination);
        // textView = findViewById(R.id.yeasb);
 
-        currentLocation = new Location("");
+        //lat lng stoppages
 
-        btnFindPath.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendRequest();
-            }
-        });
+        Resources res = this.getResources();
+        String[] busStopages = res.getStringArray(R.array.destinition);
+        String[] stoppageLatLng = res.getStringArray(R.array.latitude_longitude_bus_stoppages);
+        busStoppagesHasMap = new HashMap<String, String>();
+        for(int i=0; i<busStopages.length; i++) {
+            busStoppagesHasMap.put(busStopages[i], stoppageLatLng[i]);
+        }
+
+
 
         ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,
                 R.array.origin, android.R.layout.simple_dropdown_item_1line);
@@ -118,16 +130,22 @@ public class ShowDirectionBus extends FragmentActivity implements
                 R.array.destinition, android.R.layout.simple_dropdown_item_1line);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         destSpinner.setAdapter(adapter);
-
         requestLocationUpdates();
-
-
 
     }
 
-    private void sendRequest() {
+    private void sendRequest( HashMap<String, String> mBusStoppagesHasMap,String mCurrentLocation) {
         String origin = originSpinner.getText().toString();
         String destination = destSpinner.getText().toString();
+        String latLngOrigin = mBusStoppagesHasMap.get(origin);
+        String latLngDestination = mBusStoppagesHasMap.get(destination);
+
+        if (origin.equals("Your Current Location")){
+            latLngOrigin = mCurrentLocation.toString();
+            String nearStoppages = getNearestStoppages(mBusStoppagesHasMap,mCurrentLocation);
+            Log.d(TAG,nearStoppages);
+            Toast.makeText(this,nearStoppages,Toast.LENGTH_LONG).show();
+        }
         if (origin.isEmpty()) {
             Toast.makeText(this, "Please enter origin address!", Toast.LENGTH_SHORT).show();
             return;
@@ -138,7 +156,7 @@ public class ShowDirectionBus extends FragmentActivity implements
         }
 
         try {
-            new DirectionFinder(this, origin, destination).execute();
+            new DirectionFinder(this, latLngOrigin, latLngDestination).execute();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -274,7 +292,15 @@ public class ShowDirectionBus extends FragmentActivity implements
         double lng = Double.parseDouble(value.get("longitude").toString());
         LatLng location = new LatLng(lat, lng);
         if (!mMarkers.containsKey(key)) {
-            mMarkers.put(key, mMap.addMarker(new MarkerOptions().title(key).position(location)));
+
+            int height = 100;
+            int width = 100;
+            BitmapDrawable bitmapdraw=(BitmapDrawable)getResources().getDrawable(R.drawable.iconcar);
+            Bitmap b=bitmapdraw.getBitmap();
+            Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+            mMarkers.put(key, mMap.addMarker(new MarkerOptions().title(key)
+                    .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+                    .position(location)));
         } else {
             mMarkers.get(key).setPosition(location);
         }
@@ -357,14 +383,93 @@ public class ShowDirectionBus extends FragmentActivity implements
                     if (location != null) {
                         Log.d(TAG, "location update " + location);
                         //  Toast.makeText(TrackerService.this, location.toString(), Toast.LENGTH_SHORT).show();
-                       // textView.setText(gb);
-                        currentLocation = location;
-                        String gb = String.valueOf(currentLocation.getLatitude());
-                       // originSpinner.setText(gb);
+                        String gb = String.valueOf(location.getLatitude()+","+location.getLongitude());
+                        btnFindPath.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                sendRequest(busStoppagesHasMap,gb);
+                            }
+                        });
+
                     }
                 }
             }, null);
         }
     }
+
+    private float getDistance(double startLatitude,double startLongitude,
+                                         double endLatitude,double endLongitude){
+        float results = (float) distance(startLatitude,startLongitude,endLatitude,endLongitude);
+        return results;
+    }
+    private String getNearestStoppages(HashMap<String, String> mBusStoppagesHasMap,String mCurrentLocation){
+
+        HashMap<String,Float> distance = new HashMap<String, Float>();
+        Set keys = mBusStoppagesHasMap.keySet();
+
+        for (Iterator i = keys.iterator(); i.hasNext(); ) {
+            String key = (String) i.next();
+            String value = (String) mBusStoppagesHasMap.get(key);
+            double[] currentOrigin = Stream.of(mCurrentLocation.split(","))
+                    .mapToDouble (Double::parseDouble)
+                    .toArray();
+            double[] destination = Stream.of(value.split(","))
+                    .mapToDouble (Double::parseDouble)
+                    .toArray();
+            float dis;
+            dis = getDistance(currentOrigin[0],currentOrigin[1],destination[0],destination[1]);
+            distance.put(key,dis);
+
+        }
+
+        String minKey = null;
+        Float minValue = Float.MAX_VALUE;
+        for (Map.Entry<String, Float> entry : distance.entrySet()) {
+            Float value = entry.getValue();
+            if (value < minValue) {
+                minKey = entry.getKey();
+                minValue = value;
+            }
+        }
+
+        double[] nearestStopages = getDouble(mBusStoppagesHasMap.get(minKey));
+        Circle circle = mMap.addCircle(new CircleOptions()
+                .center(new LatLng(nearestStopages[0],nearestStopages[1]))
+                .radius(100)
+                .strokeWidth(2)
+                .strokeColor(Color.parseColor("#2271cce7"))
+                .fillColor(0x5500ff00));
+
+        return minKey;
+
+    }
+    private double distance(double lat1, double lon1, double lat2, double lon2) {
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1))
+                * Math.sin(deg2rad(lat2))
+                + Math.cos(deg2rad(lat1))
+                * Math.cos(deg2rad(lat2))
+                * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+        return (dist);
+    }
+
+    private double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    private double rad2deg(double rad) {
+        return (rad * 180.0 / Math.PI);
+    }
+
+    private double[] getDouble(String str){
+      return  Stream.of(str.split(","))
+                .mapToDouble (Double::parseDouble)
+                .toArray();
+
+    }
+
 
 }
