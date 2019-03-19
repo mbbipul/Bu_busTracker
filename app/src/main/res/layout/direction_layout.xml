@@ -5,21 +5,18 @@
     android:orientation="vertical"
     android:background="@color/favoritescolor"
     xmlns:android="http://schemas.android.com/apk/res/android">
+
+
     <TextView
         android:id="@+id/search_to_go"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
         android:layout_marginTop="200dp"
-        android:textAlignment="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:iconifiedByDefault="false"
-        android:text="Search Here" />
-    <TextView
-        android:id="@+id/show"
-        android:textAlignment="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:iconifiedByDefault="false"
-        android:text="Hello" />
-
+        android:textAllCaps="false"
+        android:text="Where you want to go?"
+        android:drawableLeft="@android:drawable/ic_menu_search"
+        android:textSize="24sp"/>
 
 </LinearLayout>

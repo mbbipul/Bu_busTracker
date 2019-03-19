@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.Button;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import static com.example.bu_bustracker.R.array.destinition;
@@ -17,7 +19,6 @@ public class DirectionsFragment extends Fragment {
 
     private TextView searchView;
     View fragView;
-    private TextView show;
     private static final int REQUEST_PLACE_PICKER = 1;
 
     @Nullable
@@ -30,7 +31,6 @@ public class DirectionsFragment extends Fragment {
         fragView = inflater.inflate(R.layout.direction_layout, null);
 
         searchView = fragView.findViewById(R.id.search_to_go);
-        show = fragView.findViewById(R.id.show);
 
         searchView.setOnClickListener(new View.OnClickListener() {
             @Override

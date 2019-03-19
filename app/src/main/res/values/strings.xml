@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Bu_busTracker</string>
+    <string name="app_name">Bu BusTracker</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Bu Bus Tracker</string>
@@ -121,6 +121,36 @@
     <string name="firebase_password" translatable="false">mbbipulmandol.cse3.bu@gmail.com</string>
     <string name="title_activity_maps">Map</string>
 
+    <string-array name="university_to_notullbad">
+        <item>Notullbad</item>
+        <item>Amtola mor</item>
+        <item>College Avenue</item>
+        <item>Cou-Matha Mor</item>
+        <item>Thana Council Main Gate</item>
+        <item>Kathal Tola</item>
+        <item>Rupatoli Housing</item>
+        <item>Toll Ghor</item>
+        <item>University</item>
+    </string-array>
+
+    <string-array name="university_to_barisal_club">
+        <item>Amtola mor</item>
+        <item>Banglabazar mor</item>
+        <item>Barisal Club</item>
+        <item>Kathal Tola</item>
+        <item>Nuriya Scholl</item>
+        <item>Rupatoli Housing</item>
+        <item>Toll Ghor</item>
+        <item>University</item>
+    </string-array>
+    <string-array name="university_to_notun_bazar">
+        <item>Korim Kuthir</item>
+        <item>Munsi Graze</item>
+        <item>Natun Bazar</item>
+        <item>Opsonin mor</item>
+        <item>Bottola mor</item>
+        <item>University</item>
+    </string-array>
     <string-array name="destinition">
         <item>Amtola mor</item>
         <item>Banglabazar mor</item>
@@ -192,4 +222,39 @@
         <item>22.695792,90.353604</item>
     </string-array>
 
+    <string-array name="bus_name">
+        <item>BRTC 05</item>
+        <item>BRTC 06</item>
+        <item>BRTC 07</item>
+        <item>BRTC 08</item>
+        <item>BRTC 09</item>
+        <item>BRTC 10</item>
+        <item>BRTC 11</item>
+        <item>Paira</item>
+        <item>Kirtonkhola</item>
+        <item>Lota</item>
+        <item>MiniBus 02</item>
+        <item>MiniBus 03</item>
+        <item>MiniBus 04</item>
+    </string-array>
+    <string-array name="notullabad_bus_name">
+        <item>BRTC 07</item>
+        <item>BRTC 08</item>
+        <item>BRTC 09</item>
+        <item>BRTC 10</item>
+        <item>BRTC 11</item>
+        <item>Lota</item>
+    </string-array>
+    <string-array name="natunbazar_bus_name">
+        <item>MiniBus 02</item>
+        <item>MiniBus 03</item>
+        <item>MiniBus 04</item>
+    </string-array>
+    <string-array name="barisal_club_bus_name">
+        <item>BRTC 05</item>
+        <item>BRTC 06</item>
+        <item>Paira</item>
+        <item>Kirtonkhola</item>
+        <item>Lota</item>
+    </string-array>
 </resources>

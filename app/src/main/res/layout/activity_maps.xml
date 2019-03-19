@@ -6,7 +6,6 @@
     tools:context="com.example.bu_bustracker.ShowDirectionBus"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bb_darkBackgroundColor"
     android:orientation="vertical">
 
     <LinearLayout

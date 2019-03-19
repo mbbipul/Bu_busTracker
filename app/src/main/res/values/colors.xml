@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574b</color>
+    <color name="colorPrimary">#fd0e0e0e</color>
+    <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#D81B60</color>
     <color name="favoritescolor">#e2dada</color>
     <color name="colorNavIcon">#dae9f6</color>
-    <color name="colorNavText">#01294b</color>
+    <color name="colorNavText">#e4edf4</color>
     <color name="light_gray">#D3D3D3</color>
 </resources>

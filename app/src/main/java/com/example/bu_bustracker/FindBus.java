@@ -2,7 +2,6 @@ package com.example.bu_bustracker;
 
 import android.Manifest;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -62,105 +61,71 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.stream.Stream;
 
 import BusFinderModule.BusHelper;
-import BusFinderModule.GetTheBus;
 import DirectionModule.DirectionFinder;
 import DirectionModule.DirectionFinderListener;
 import DirectionModule.Route;
 
-public class ShowDirectionBus extends FragmentActivity implements
-        GoogleMap.OnMyLocationButtonClickListener,
-        GoogleMap.OnMyLocationClickListener,
+public class FindBus extends FragmentActivity implements
         DirectionFinderListener,
         OnMapReadyCallback {
 
 
-    private static final String TAG = ShowDirectionBus.class.getSimpleName();
+    private static final String TAG = FindBus.class.getSimpleName();
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private HashMap<String, Marker> mMarkers = new HashMap<>();
     private GoogleMap mMap;
     private boolean mPermissionDenied = false;
 
-    private Button btnFindPath;
+    private Button btnFindBus;
     private List<Circle> originMarkers = new ArrayList<Circle>();
     private List<Marker> destinationMarkers = new ArrayList<>();
     private List<Polyline> polylinePaths = new ArrayList<>();
     private ProgressDialog progressDialog;
-    private  MaterialBetterSpinner  destSpinner;
-    private  MaterialBetterSpinner  originSpinner;
+    private  MaterialBetterSpinner  busNameSpinner;
     HashMap<String, String> busStoppagesHasMap;
 
     TextView textView;
-    private boolean isMarkerRotating;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+        setContentView(R.layout.activity_find_bus);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        btnFindPath = (Button) findViewById(R.id.btnFindPath);
-        originSpinner = (MaterialBetterSpinner) findViewById(R.id.etOrigin);
-        destSpinner = (MaterialBetterSpinner) findViewById(R.id.etDestination);
-        isMarkerRotating = false;
-       // textView = findViewById(R.id.yeasb);
-
-        //lat lng stoppages
-
-        Resources res = this.getResources();
-        String[] busStopages = res.getStringArray(R.array.destinition);
-        String[] stoppageLatLng = res.getStringArray(R.array.latitude_longitude_bus_stoppages);
-        busStoppagesHasMap = new HashMap<String, String>();
-        for(int i=0; i<busStopages.length; i++) {
-            busStoppagesHasMap.put(busStopages[i], stoppageLatLng[i]);
-        }
-
+        btnFindBus = (Button) findViewById(R.id.btnFindBus);
+        busNameSpinner = (MaterialBetterSpinner) findViewById(R.id.busName);
 
 
         ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,
-                R.array.origin, android.R.layout.simple_dropdown_item_1line);
+                R.array.bus_name, android.R.layout.simple_dropdown_item_1line);
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        originSpinner.setAdapter(adapter1);
+        busNameSpinner.setAdapter(adapter1);
 
-
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.destinition, android.R.layout.simple_dropdown_item_1line);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        destSpinner.setAdapter(adapter);
-        requestLocationUpdates();
 
     }
 
-    private void sendRequest( HashMap<String, String> mBusStoppagesHasMap,String mCurrentLocation) {
-        String origin = originSpinner.getText().toString();
-        String destination = destSpinner.getText().toString();
-        String latLngOrigin = mBusStoppagesHasMap.get(origin);
-        String latLngDestination = mBusStoppagesHasMap.get(destination);
-
-        if (origin.equals("Your Current Location")){
-            latLngOrigin = mCurrentLocation.toString();
-            String nearStoppages = getNearestStoppages(mBusStoppagesHasMap,mCurrentLocation);
-            Log.d(TAG,nearStoppages);
-            Toast.makeText(this,nearStoppages,Toast.LENGTH_LONG).show();
-        }
-        if (origin.isEmpty()) {
+    private void sendRequest(String mCurrentLocation) {
+        String busName = busNameSpinner.getText().toString();
+        String latLngOrigin;
+        latLngOrigin = mCurrentLocation.toString();
+        if (busName.isEmpty()) {
             Toast.makeText(this, "Please enter origin address!", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (destination.isEmpty()) {
-            Toast.makeText(this, "Please enter destination address!", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        showBus(latLngOrigin,busName);
 
-        try {
-            new DirectionFinder(this, latLngOrigin, latLngDestination).execute();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+//        try {
+////            new DirectionFinder(this, latLngOrigin, latLngDestination).execute();
+//            showBus(origin);
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override
@@ -169,71 +134,14 @@ public class ShowDirectionBus extends FragmentActivity implements
         mMap = googleMap;
         mMap.setMaxZoomPreference(16);
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-        enableMyLocation();
-    }
-
-    private void enableMyLocation() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            // Permission to access the location is missing.
-            PermissionUtils.requestPermission(this, LOCATION_PERMISSION_REQUEST_CODE,
-                    Manifest.permission.ACCESS_FINE_LOCATION, true);
-        } else if (mMap != null) {
-            // Access to the location has been granted to the app.
-
-            mMap.setMyLocationEnabled(true);
-        }
-    }
-
-    @Override
-    public boolean onMyLocationButtonClick() {
-        Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT).show();
-        // Return false so that we don't consume the event and the default behavior still occurs
-        // (the camera animates to the user's current position).
-        return false;
-    }
-
-    @Override
-    public void onMyLocationClick(@NonNull Location location) {
-        //LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
-        Toast.makeText(this, "Current location:\n" + location, Toast.LENGTH_LONG).show();
+        loginToFirebase();
     }
 
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        if (requestCode != LOCATION_PERMISSION_REQUEST_CODE) {
-            return;
-        }
-
-        if (PermissionUtils.isPermissionGranted(permissions, grantResults,
-                Manifest.permission.ACCESS_FINE_LOCATION)) {
-            // Enable the my location layer if the permission has been granted.
-            enableMyLocation();
-        } else {
-            // Display the missing permission error dialog when the fragments resume.
-            mPermissionDenied = true;
-        }
-    }
-
-    @Override
-    protected void onResumeFragments() {
-        super.onResumeFragments();
-        if (mPermissionDenied) {
-            // Permission was not granted, display error dialog.
-            showMissingPermissionError();
-            mPermissionDenied = false;
-        }
-    }
 
     /**
      * Displays a dialog with error message explaining that the location permission is missing.
      */
-    private void showMissingPermissionError() {
-        PermissionUtils.PermissionDeniedDialog
-                .newInstance(true).show(getSupportFragmentManager(), "dialog");
-    }
 
     private void loginToFirebase() {
         String email = getString(R.string.firebase_email);
@@ -244,8 +152,7 @@ public class ShowDirectionBus extends FragmentActivity implements
             @Override
             public void onComplete(Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    subscribeToUpdates();
-                    Log.v(TAG, "firebase auth success");
+                    requestLocationUpdates();
                 } else {
                     Log.v(TAG, "firebase auth failed");
                 }
@@ -253,79 +160,9 @@ public class ShowDirectionBus extends FragmentActivity implements
         });
     }
 
-    private void subscribeToUpdates() {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(getString(R.string.firebase_path));
-        ref.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-                setMarker(dataSnapshot);
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
-                setMarker(dataSnapshot);
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                Log.v(TAG, "Failed to read value.", error.toException());
-            }
-        });
-    }
-
-    private void setMarker(DataSnapshot dataSnapshot) {
-        // When a location update is received, put or update
-        // its value in mMarkers, which contains all the markers
-        // for locations received, so that we can build the
-        // boundaries required to show them all on the map at once
-        String key = dataSnapshot.getKey();
-        HashMap<String, Object> value = (HashMap<String, Object>) dataSnapshot.getValue();
-        double lat = Double.parseDouble(value.get("latitude").toString());
-        double lng = Double.parseDouble(value.get("longitude").toString());
-        float bearing = Float.parseFloat(value.get("bearing").toString());
-        LatLng location = new LatLng(lat, lng);
-        if (!mMarkers.containsKey(key)) {
-            String origin = originSpinner.getText().toString();
-            String destination = destSpinner.getText().toString();
-            String latLngOrigin = busStoppagesHasMap.get(origin);
-            String latLngDestination = busStoppagesHasMap.get(destination);
-
-//            GetTheBus getTheBus =new GetTheBus(this,latLngOrigin,latLngDestination
-//            ,origin,destination);
-//            ArrayList<String> availableBus = getTheBus.getAvailableBusses();
-            //Toast.makeText(this, availableBus.get(0),Toast.LENGTH_LONG).show();
-
-            int height = 100;
-            int width = 100;
-            Bitmap b=BusHelper.getBitmapFromVectorDrawable(this,R.drawable.ic_navigation_black_24dp);
-            Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
-                Marker marker = mMap.addMarker(new MarkerOptions().title(key)
-                        .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
-                        .position(location)
-                        .rotation(bearing));
-                mMarkers.put(key, marker);
-
-        } else {
-            mMarkers.get(key).setPosition(location);
-        }
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        for (Marker marker : mMarkers.values()) {
-            builder.include(marker.getPosition());
-        }
-    }
 
     @Override
     public void onDirectionFinderStart() {
-        progressDialog = ProgressDialog.show(this, "Please wait.",
-                "Finding direction..!", true);
 
         if (originMarkers != null) {
             for (Circle marker : originMarkers) {
@@ -348,11 +185,11 @@ public class ShowDirectionBus extends FragmentActivity implements
 
     @Override
     public void onDirectionFinderSuccess(List<Route> routes) {
-        progressDialog.dismiss();
+       progressDialog.dismiss();
         polylinePaths = new ArrayList<>();
         originMarkers = new ArrayList<Circle>();
         destinationMarkers = new ArrayList<>();
-        loginToFirebase();
+
         for (Route route : routes) {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(route.startLocation, 16));
             ((TextView) findViewById(R.id.tvDuration)).setText(route.duration.text);
@@ -373,7 +210,7 @@ public class ShowDirectionBus extends FragmentActivity implements
 
             PolylineOptions polylineOptions = new PolylineOptions().
                     geodesic(true).
-                    color(Color.BLUE).
+                    color(Color.GREEN).
                     width(15);
 
             for (int i = 0; i < route.points.size(); i++)
@@ -400,11 +237,14 @@ public class ShowDirectionBus extends FragmentActivity implements
                         Log.d(TAG, "location update " + location);
                         //  Toast.makeText(TrackerService.this, location.toString(), Toast.LENGTH_SHORT).show();
                         String gb = String.valueOf(location.getLatitude()+","+location.getLongitude());
-                        btnFindPath.setOnClickListener(new View.OnClickListener() {
+                        btnFindBus.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                sendRequest(busStoppagesHasMap,gb);
+                                sendRequest(gb);
+                                progressDialog = ProgressDialog.show(FindBus.this, "Please wait.",
+                                        "Finding direction..!", true);
                             }
+
                         });
 
                     }
@@ -414,7 +254,7 @@ public class ShowDirectionBus extends FragmentActivity implements
     }
 
     private float getDistance(double startLatitude,double startLongitude,
-                                         double endLatitude,double endLongitude){
+                              double endLatitude,double endLongitude){
         float results = (float) distance(startLatitude,startLongitude,endLatitude,endLongitude);
         return results;
     }
@@ -487,10 +327,92 @@ public class ShowDirectionBus extends FragmentActivity implements
     }
 
     private double[] getDouble(String str){
-      return  Stream.of(str.split(","))
+        return  Stream.of(str.split(","))
                 .mapToDouble (Double::parseDouble)
                 .toArray();
 
     }
 
+    private void showBus(String currentLocation,String busName){
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(getString(R.string.firebase_path));
+        ref.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
+                showDirection(dataSnapshot,currentLocation,busName);
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
+                showDirection(dataSnapshot,currentLocation,busName);
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.v(TAG, "Failed to read value.", error.toException());
+            }
+        });
+    }
+
+    private void showDirection(DataSnapshot dataSnapshot,String currentLocation,String busName){
+        // boundaries required to show them all on the map at once
+        String key = dataSnapshot.getKey();
+        HashMap<String, Object> value = (HashMap<String, Object>) dataSnapshot.getValue();
+        double lat = Double.parseDouble(value.get("latitude").toString());
+        double lng = Double.parseDouble(value.get("longitude").toString());
+        float bearing = Float.parseFloat(value.get("bearing").toString());
+        LatLng location = new LatLng(lat, lng);
+
+        int height = 100;
+        int width = 100;
+        Bitmap b=BusHelper.getBitmapFromVectorDrawable(this,R.drawable.ic_navigation_black_24dp);
+        Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+
+
+        if (!mMarkers.containsKey(key)) {
+
+            if (key.equals(busName)){
+
+                Marker marker = mMap.addMarker(new MarkerOptions().title(key)
+                        .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+                        .position(location)
+                        .rotation(bearing));
+                mMarkers.put(key, marker);
+                String busLoc = location.latitude+","+location.longitude;
+                try {
+                    new DirectionFinder(this,currentLocation,busLoc).execute();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            if (key.equals(busName)) {
+
+                Marker marker = mMap.addMarker(new MarkerOptions().title(key)
+                        .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+                        .position(location)
+                        .rotation(bearing));
+                mMarkers.get(key).setPosition(location);
+                String busLoc = location.latitude+","+location.longitude;
+                try {
+                    new DirectionFinder(this,currentLocation,busLoc).execute();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        for (Marker marker : mMarkers.values()) {
+            builder.include(marker.getPosition());
+        }
+    }
 }

@@ -2,6 +2,7 @@ package DirectionModule;
 
 import android.os.AsyncTask;
 
+import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
@@ -35,6 +36,10 @@ public class DirectionFinder {
         this.destination = destination;
     }
 
+    public DirectionFinder(LocationCallback locationCallback, String origin, String destination){
+        this.origin = origin;
+        this.destination = destination;
+    }
     public void execute() throws UnsupportedEncodingException {
         listener.onDirectionFinderStart();
         new DownloadRawData().execute(createUrl());
