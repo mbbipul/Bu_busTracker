@@ -26,10 +26,10 @@
         android:id="@+id/heroImageView"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
+        android:background="@drawable/parrallexhome"
         android:scaleType="fitCenter" />
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
     android:id="@+id/recyclerView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"

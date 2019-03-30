@@ -1,5 +1,4 @@
 package BusFinderModule;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Build;
@@ -37,6 +36,8 @@ public class GetTheBus {
         this.context = mContext;
         this.origin = mOrigin;
         this.destination = mDestination;
+        allBusLocation1 = new HashMap<String, String>();
+        allBusLocation2 = new HashMap<String, String>();
         this.isMyJourneyDirection = getMyJourneyDirection(mOrigin,mDestination);
         this.isMyJorneyRoutes = BusHelper.myJourneyRoutes(mContext,originName,destinationName);
     }
@@ -67,7 +68,8 @@ public class GetTheBus {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public ArrayList<String> getAvailableBusses(){
-        HashMap<String,Boolean> allBusDir = getAllBusDirection();
+        HashMap<String,Boolean> allBusDir = new HashMap<String, Boolean>();
+        allBusDir = getAllBusDirection();
         ArrayList<String> availablebus = new ArrayList<>();
         Resources res = context.getResources();
         String[] busNameNotullabad = res.getStringArray(R.array.notullabad_bus_name);
@@ -93,7 +95,6 @@ public class GetTheBus {
         for (Iterator i = keys.iterator(); i.hasNext();){
             String key = (String) i.next();
             if (isMyJourneyDirection){
-                if (isMyJourneyDirection==allBusDir.get(key)){
                     if (isMyJorneyRoutes[0] == natullabadBus.get(key) ||
                             isMyJorneyRoutes[1] == natullabadBus.get(key) ||
                             isMyJorneyRoutes[2] == natullabadBus.get(key) ){
@@ -101,7 +102,6 @@ public class GetTheBus {
                             availablebus.add(key);
                         }
                     }
-                }
 
             }
             else {
@@ -147,8 +147,7 @@ public class GetTheBus {
         }
         return allBusDis;
     }
-    private void subscribeToUpdatesBusLocation() {
-        final DataSnapshot[] mDataSnapshot = new DataSnapshot[1];
+    public void subscribeToUpdatesBusLocation() {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("locations");
         ref.addChildEventListener(new ChildEventListener() {
             @Override
@@ -157,8 +156,9 @@ public class GetTheBus {
                 HashMap<String, Object> value = (HashMap<String, Object>) dataSnapshot.getValue();
                 double lat = Double.parseDouble(value.get("latitude").toString());
                 double lng = Double.parseDouble(value.get("longitude").toString());
+                String msg = String.valueOf(lat);
                 allBusLocation1.put(key,lat+","+lng);
-                Toast.makeText(context,allBusLocation1.get(key),Toast.LENGTH_LONG).show();
+                Toast.makeText(context, msg,Toast.LENGTH_LONG).show();
 
             }
 
@@ -187,7 +187,7 @@ public class GetTheBus {
         });
         Toast.makeText(context,allBusLocation1.get("Paira"),Toast.LENGTH_LONG).show();
     }
-    private  void subscribeToUpdatesBusLocation2() {
+    public void subscribeToUpdatesBusLocation2() {
         final DataSnapshot[] mDataSnapshot = new DataSnapshot[1];
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("locations");
         ref.addChildEventListener(new ChildEventListener() {
@@ -225,6 +225,11 @@ public class GetTheBus {
 
     }
 
-
+    public void setAllBusLocation1(String key,String value) {
+        this.allBusLocation1.put(key, value);
+    }
+    public void setAllBusLocation2(String key,String value) {
+        this.allBusLocation2.put(key, value);
+    }
 }
 

@@ -15,6 +15,10 @@
     <string name="notification_feedback">Feedback</string>
     <string name="title_activity_notification_setting">NotificationSetting</string>
 
+    <string name="notullabad_route_database_ref">Routes/UniversityToNotullabad/Bus_Name/</string>
+    <string name="barisal_club_route_database_ref">Routes/UniversityToBarisalClub/Bus_Name/</string>
+    <string name="natunbazar_route_database_ref">Routes/UniversityToNatunBazar/Bus_Name/</string>
+
     <string name="google_maps_key">AIzaSyC21ByMqsEcp0SbGOPmF-c6_rwUmVlDHog</string>
     <!-- Strings related to Settings -->
 
@@ -122,33 +126,33 @@
     <string name="title_activity_maps">Map</string>
 
     <string-array name="university_to_notullbad">
-        <item>Notullbad</item>
-        <item>Amtola mor</item>
+        <item>Notullabad</item>
         <item>College Avenue</item>
         <item>Cou-Matha Mor</item>
         <item>Thana Council Main Gate</item>
-        <item>Kathal Tola</item>
+        <item>Amtola mor</item>
         <item>Rupatoli Housing</item>
+        <item>Kathal Tola</item>
         <item>Toll Ghor</item>
         <item>University</item>
     </string-array>
 
     <string-array name="university_to_barisal_club">
-        <item>Amtola mor</item>
-        <item>Banglabazar mor</item>
         <item>Barisal Club</item>
-        <item>Kathal Tola</item>
+        <item>Banglabazar mor</item>
+        <item>Amtola mor</item>
         <item>Nuriya Scholl</item>
         <item>Rupatoli Housing</item>
+        <item>Kathal Tola</item>
         <item>Toll Ghor</item>
         <item>University</item>
     </string-array>
     <string-array name="university_to_notun_bazar">
-        <item>Korim Kuthir</item>
-        <item>Munsi Graze</item>
         <item>Natun Bazar</item>
+        <item>Munsi Graze</item>
         <item>Opsonin mor</item>
         <item>Bottola mor</item>
+        <item>Korim Kuthir</item>
         <item>University</item>
     </string-array>
     <string-array name="destinition">
@@ -168,7 +172,7 @@
         <item>Natun Bazar</item>
         <item>Opsonin mor</item>
         <item>College Avenue</item>
-        <item>Notullbad</item>
+        <item>Notullabad</item>
 
         <item>Cou-Matha Mor</item>
         <item>Thana Council Main Gate</item>
@@ -193,7 +197,7 @@
         <item>Natun Bazar</item>
         <item>Opsonin mor</item>
         <item>College Avenue</item>
-        <item>Notullbad</item>
+        <item>Notullabad</item>
 
         <item>Cou-Matha Mor</item>
         <item>Thana Council Main Gate</item>
@@ -257,4 +261,5 @@
         <item>Kirtonkhola</item>
         <item>Lota</item>
     </string-array>
+    <string name="title_activity_stoppages_full_schedule">StoppagesFullSchedule</string>
 </resources>

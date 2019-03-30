@@ -98,13 +98,15 @@ public class RouteAdapter extends BaseAdapter  {
                 case ROW:
                     v=inflater.inflate(R.layout.lines_route_item, null);
                     linearLayout =(LinearLayout) v.findViewById(R.id.lines_item_click);
+                    TextView textView = v.findViewById(R.id.route_des);
                     linearLayout.setOnClickListener(new View.OnClickListener() {
 
                         @Override
                         public void onClick(View v) {
                             // TODO Auto-generated method stub
-
-                            c.startActivity(new Intent(c, RouteLineDetails.class));
+                            Intent rooteLineDet = new Intent(c, RouteLineDetails.class);
+                            rooteLineDet.putExtra("routeName",textView.getText());
+                            c.startActivity(rooteLineDet);
                         }
                     });
                     break;

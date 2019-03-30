@@ -1,32 +1,71 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <ImageView
-        android:id="@+id/heroImageView"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <fragment
+        android:id="@+id/map_route_item"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:background="@drawable/parrallexhome"
-        android:scaleType="fitCenter" />
+        android:layout_height="200dp"
+        tools:context=".RouteLineDetails" />
 
-    <ListView
+    <android.support.v7.widget.CardView
+        android:id="@+id/stickyView_i"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/txtHeader"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/light_gray"
+            android:gravity="left|center_vertical"
+            android:text="Natullbad"
+            android:paddingLeft="15dp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/abc_text_size_large_material" />
+
+        <ImageButton
+            android:id="@+id/maphideshow"
+            style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="122dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:src="@drawable/ic_map_blue_24dp"
+            android:gravity="right|center_vertical"
+            android:background="@null"
+            />
+
+    </android.support.v7.widget.CardView>
+
+    <!--<ListView-->
+        <!--android:id="@+id/listView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:divider="#9E9E9E"-->
+        <!--android:dividerHeight="1dp"-->
+        <!--android:scrollbars="none"></ListView>-->
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/listView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:divider="#9E9E9E"
-        android:dividerHeight="1dp"
-        android:scrollbars="none"></ListView>
+        android:layout_height="match_parent"
+        android:background="@color/light_gray"
+        app:layout_scrollFlags="scroll|exitUntilCollapsed"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-    <TextView
-        android:id="@+id/stickyView"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="#222"
-        android:gravity="center_vertical"
-        android:paddingLeft="10dp"
-        android:text="Heading1"
-        android:textColor="#fff"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-</FrameLayout>
+    <!--<TextView-->
+        <!--android:id="@+id/stickyView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:background="#222"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:paddingLeft="10dp"-->
+        <!--android:text="Heading1"-->
+        <!--android:textColor="#fff"-->
+        <!--android:textSize="20sp"-->
+        <!--android:textStyle="bold" />-->
+
+</LinearLayout>
 

@@ -70,6 +70,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import BusFinderModule.BusHelper;
 import DirectionModule.DirectionFinder;
 import DirectionModule.DirectionFinderListener;
 import DirectionModule.Route;
@@ -103,6 +104,9 @@ public class FindALlBus extends FragmentActivity implements
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        progressDialog = ProgressDialog.show(this, "Please wait.",
+                "Finding All Busses..!", true);
+
 
 
     }
@@ -173,7 +177,7 @@ public class FindALlBus extends FragmentActivity implements
 
     @Override
     public void onDirectionFinderSuccess(List<Route> routes) {
-        //progressDialog.dismiss();
+        progressDialog.dismiss();
         polylinePaths = new ArrayList<>();
         originMarkers = new ArrayList<Circle>();
         destinationMarkers = new ArrayList<>();
@@ -316,10 +320,12 @@ public class FindALlBus extends FragmentActivity implements
 
             int height = 100;
             int width = 100;
-            BitmapDrawable bitmapdraw=(BitmapDrawable)getResources().getDrawable(R.drawable.iconcar);
-            Bitmap b=bitmapdraw.getBitmap();
+//            BitmapDrawable bitmapdraw=(BitmapDrawable)getResources().getDrawable(R.drawable.ic_navigation_black_24dp);
+//            Bitmap b=bitmapdraw.getBitmap();
+            Bitmap b=BusHelper.getBitmapFromVectorDrawable(this,R.drawable.ic_navigation_black_24dp);
             Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
             Marker marker = mMap.addMarker(new MarkerOptions().title(key)
+                    .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
                     .position(location)
                     .rotation(bearing));
                 mMarkers.put(key, marker);

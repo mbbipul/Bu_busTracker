@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -95,6 +96,7 @@ public class ShowDirectionBus extends FragmentActivity implements
 
     TextView textView;
     private boolean isMarkerRotating;
+    GetTheBus getTheBus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -291,18 +293,21 @@ public class ShowDirectionBus extends FragmentActivity implements
         double lat = Double.parseDouble(value.get("latitude").toString());
         double lng = Double.parseDouble(value.get("longitude").toString());
         float bearing = Float.parseFloat(value.get("bearing").toString());
+
+        String origin = originSpinner.getText().toString();
+        String destination = destSpinner.getText().toString();
+        String latLngOrigin = busStoppagesHasMap.get(origin);
+        String latLngDestination = busStoppagesHasMap.get(destination);
+
+//        getTheBus =new GetTheBus(this,latLngOrigin,latLngDestination
+//                ,origin,destination);
+//        getTheBus.setAllBusLocation1(key,lat+","+lng);
+
+//        ArrayList<String> availableBus = getTheBus.getAvailableBusses();
+//        Toast.makeText(this, availableBus.get(0),Toast.LENGTH_LONG).show();
+
         LatLng location = new LatLng(lat, lng);
         if (!mMarkers.containsKey(key)) {
-            String origin = originSpinner.getText().toString();
-            String destination = destSpinner.getText().toString();
-            String latLngOrigin = busStoppagesHasMap.get(origin);
-            String latLngDestination = busStoppagesHasMap.get(destination);
-
-//            GetTheBus getTheBus =new GetTheBus(this,latLngOrigin,latLngDestination
-//            ,origin,destination);
-//            ArrayList<String> availableBus = getTheBus.getAvailableBusses();
-            //Toast.makeText(this, availableBus.get(0),Toast.LENGTH_LONG).show();
-
             int height = 100;
             int width = 100;
             Bitmap b=BusHelper.getBitmapFromVectorDrawable(this,R.drawable.ic_navigation_black_24dp);
@@ -320,6 +325,7 @@ public class ShowDirectionBus extends FragmentActivity implements
         for (Marker marker : mMarkers.values()) {
             builder.include(marker.getPosition());
         }
+//        subscribeToUpdates2();
     }
 
     @Override
@@ -352,6 +358,7 @@ public class ShowDirectionBus extends FragmentActivity implements
         polylinePaths = new ArrayList<>();
         originMarkers = new ArrayList<Circle>();
         destinationMarkers = new ArrayList<>();
+        String dest = destSpinner.getText().toString();
         loginToFirebase();
         for (Route route : routes) {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(route.startLocation, 16));
@@ -368,12 +375,12 @@ public class ShowDirectionBus extends FragmentActivity implements
                     .strokeColor(Color.BLUE)
                     .fillColor(Color.GREEN)));
             destinationMarkers.add(mMap.addMarker(new MarkerOptions()
-                    .title(route.endAddress)
+                    .title(dest)
                     .position(route.endLocation)));
 
             PolylineOptions polylineOptions = new PolylineOptions().
                     geodesic(true).
-                    color(Color.BLUE).
+                    color(Color.GREEN).
                     width(15);
 
             for (int i = 0; i < route.points.size(); i++)
@@ -493,4 +500,46 @@ public class ShowDirectionBus extends FragmentActivity implements
 
     }
 
+
+    private void subscribeToUpdates2() {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(getString(R.string.firebase_path));
+        ref.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
+                setGetBusLoc2(dataSnapshot);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
+                setGetBusLoc2(dataSnapshot);
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.v(TAG, "Failed to read value.", error.toException());
+            }
+        });
+    }
+
+    private void setGetBusLoc2(DataSnapshot dataSnapshot){
+        String key = dataSnapshot.getKey();
+        HashMap<String, Object> value = (HashMap<String, Object>) dataSnapshot.getValue();
+        double lat = Double.parseDouble(value.get("latitude").toString());
+        double lng = Double.parseDouble(value.get("longitude").toString());
+        float bearing = Float.parseFloat(value.get("bearing").toString());
+        getTheBus.setAllBusLocation2(key,lat+","+lng);
+
+//        ArrayList<String> availableBus = new ArrayList<String>();
+//         availableBus = getTheBus.getAvailableBusses();
+//        Toast.makeText(this, availableBus.get(0),Toast.LENGTH_LONG).show();
+
+    }
 }

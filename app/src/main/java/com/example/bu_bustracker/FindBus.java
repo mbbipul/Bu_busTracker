@@ -118,6 +118,9 @@ public class FindBus extends FragmentActivity implements
             Toast.makeText(this, "Please enter origin address!", Toast.LENGTH_SHORT).show();
             return;
         }
+        progressDialog = ProgressDialog.show(FindBus.this, "Please wait.",
+                "Finding Bus..!", true);
+
         showBus(latLngOrigin,busName);
 
 //        try {
@@ -204,9 +207,9 @@ public class FindBus extends FragmentActivity implements
                     .radius(50)
                     .strokeColor(Color.BLUE)
                     .fillColor(Color.GREEN)));
-            destinationMarkers.add(mMap.addMarker(new MarkerOptions()
-                    .title(route.endAddress)
-                    .position(route.endLocation)));
+//            destinationMarkers.add(mMap.addMarker(new MarkerOptions()
+//                    .title(route.endAddress)
+//                    .position(route.endLocation)));
 
             PolylineOptions polylineOptions = new PolylineOptions().
                     geodesic(true).
@@ -241,9 +244,7 @@ public class FindBus extends FragmentActivity implements
                             @Override
                             public void onClick(View v) {
                                 sendRequest(gb);
-                                progressDialog = ProgressDialog.show(FindBus.this, "Please wait.",
-                                        "Finding direction..!", true);
-                            }
+                             }
 
                         });
 

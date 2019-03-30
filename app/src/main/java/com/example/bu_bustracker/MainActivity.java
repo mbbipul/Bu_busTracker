@@ -15,8 +15,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import AppDatabase.StoppageDescription;
+import AppDatabase.StoppagesDatabaseHelper;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -43,6 +47,7 @@ public class MainActivity extends AppCompatActivity
 //
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation_view);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
 
 
 

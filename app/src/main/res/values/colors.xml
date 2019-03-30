@@ -7,4 +7,8 @@
     <color name="colorNavIcon">#dae9f6</color>
     <color name="colorNavText">#e4edf4</color>
     <color name="light_gray">#D3D3D3</color>
+    <color name="time_line">#f50c00</color>
+    <color name="blue_clickable">#696fe7</color>
+    <color name="green_t">#0f9f2a</color>
+    <color name="darker_gray">#696c74</color>
 </resources>

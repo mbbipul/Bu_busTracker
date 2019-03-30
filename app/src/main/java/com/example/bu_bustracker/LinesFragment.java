@@ -24,11 +24,11 @@ public class LinesFragment extends Fragment {
         //RouteModule listView
          route = rootView.findViewById(route_line_list_view);
 
-        Routes routes10 = new Routes("Notullbad","University",R.drawable.ic_directions_black_24dp);
+        Routes routes10 = new Routes("Notullabad","University",R.drawable.ic_directions_black_24dp);
         Routes routes20 = new Routes("Barisal Club","University",R.drawable.ic_directions_black_24dp);
         Routes routes30 = new Routes("Natun Bazar","University",R.drawable.ic_directions_black_24dp);
 
-        Routes routes01 = new Routes("University","Notullbad",R.drawable.ic_directions_black_24dp);
+        Routes routes01 = new Routes("University","Notullabad",R.drawable.ic_directions_black_24dp);
         Routes routes02 = new Routes("University","Barisal Club",R.drawable.ic_directions_black_24dp);
         Routes routes03 = new Routes("University","Natun Bazar",R.drawable.ic_directions_black_24dp);
 
